@@ -2,6 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menu_lista_produtos_remove"
+        android:id="@+id/menu_list_product_remove"
         android:title="@string/remove" />
 </menu>

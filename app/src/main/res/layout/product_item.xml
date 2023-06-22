@@ -30,7 +30,7 @@
             tools:text="1" />
 
         <TextView
-            android:id="@+id/produto_item_nome"
+            android:id="@+id/product_item_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
@@ -43,7 +43,7 @@
             tools:text="Computador i5" />
 
         <TextView
-            android:id="@+id/produto_item_preco"
+            android:id="@+id/product_item_price"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -54,24 +54,24 @@
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/produto_item_quantidade"
+            app:layout_constraintEnd_toStartOf="@+id/product_item_stock"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@+id/produto_item_nome"
-            app:layout_constraintTop_toBottomOf="@+id/produto_item_nome"
+            app:layout_constraintStart_toStartOf="@+id/product_item_name"
+            app:layout_constraintTop_toBottomOf="@+id/product_item_name"
             tools:text="R$ 10,00" />
 
         <TextView
-            android:id="@+id/produto_item_quantidade"
+            android:id="@+id/product_item_stock"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:gravity="center"
             android:textAlignment="center"
             android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="@+id/produto_item_preco"
-            app:layout_constraintEnd_toEndOf="@+id/produto_item_nome"
+            app:layout_constraintBottom_toBottomOf="@+id/product_item_price"
+            app:layout_constraintEnd_toEndOf="@+id/product_item_name"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/produto_item_preco"
-            app:layout_constraintTop_toTopOf="@+id/produto_item_preco"
+            app:layout_constraintStart_toEndOf="@+id/product_item_price"
+            app:layout_constraintTop_toTopOf="@+id/product_item_price"
             tools:text="100" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,18 +21,18 @@ Caso seja necessária a execução em outra porta, utilize o seguinte comando `j
 
 ## End Points configurados
 
-- `/produto`:
-  - **GET**: devolve lista com todos os produtos.
-  - **POST**: salva produto e o retorna com o id gerado.
+- `/product`:
+  - **GET**: devolve lista com todos os products.
+  - **POST**: salva product e o retorna com o id gerado.
 
-- `/produto/{id}`: as operações são feitas apenas com ids existentes.
-  - **PUT**: altera produto e o retorna com as alterações realizadas
-  - **DELETE**: remove produto
+- `/product/{id}`: as operações são feitas apenas com ids existentes.
+  - **PUT**: altera product e o retorna com as alterações realizadas
+  - **DELETE**: remove product
 
 > Ids enviados como atributo do objeto via body são ignorados.
 
 
-O objeto de um produto segue o seguinte modelo:
+O objeto de um product segue o seguinte modelo:
 
 ```
 {

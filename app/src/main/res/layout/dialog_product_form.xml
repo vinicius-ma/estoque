@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/formulario_produto_id"
+        android:id="@+id/dialog_product_form_id"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -21,7 +21,7 @@
         tools:text="1" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/formulario_produto_nome"
+        android:id="@+id/dialog_product_form_name"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -31,50 +31,50 @@
         android:theme="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/formulario_produto_id">
+        app:layout_constraintTop_toBottomOf="@id/dialog_product_form_id">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/nome" />
+            android:hint="@string/name" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/formulario_produto_preco"
+        android:id="@+id/dialog_product_form_price"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:theme="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        app:layout_constraintEnd_toEndOf="@id/formulario_produto_nome"
-        app:layout_constraintStart_toStartOf="@id/formulario_produto_nome"
-        app:layout_constraintTop_toBottomOf="@id/formulario_produto_nome">
+        app:layout_constraintEnd_toEndOf="@id/dialog_product_form_name"
+        app:layout_constraintStart_toStartOf="@id/dialog_product_form_name"
+        app:layout_constraintTop_toBottomOf="@id/dialog_product_form_name">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_action_dinheiro"
+            android:drawableStart="@drawable/ic_action_money"
             android:drawablePadding="8dp"
-            android:hint="@string/preco"
+            android:hint="@string/price"
             android:inputType="numberDecimal"
             android:lines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/formulario_produto_quantidade"
+        android:id="@+id/dialog_product_form_stock"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:theme="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        app:layout_constraintEnd_toEndOf="@id/formulario_produto_preco"
-        app:layout_constraintStart_toStartOf="@id/formulario_produto_preco"
-        app:layout_constraintTop_toBottomOf="@id/formulario_produto_preco">
+        app:layout_constraintEnd_toEndOf="@id/dialog_product_form_price"
+        app:layout_constraintStart_toStartOf="@id/dialog_product_form_price"
+        app:layout_constraintTop_toBottomOf="@id/dialog_product_form_price">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/quantidade"
+            android:hint="@string/stock"
             android:inputType="number"
             android:lines="1" />
     </com.google.android.material.textfield.TextInputLayout>

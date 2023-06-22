@@ -7,14 +7,14 @@ import androidx.room.TypeConverter;
 public class BigDecimalConverter {
 
     @TypeConverter
-    public Double paraDouble(BigDecimal valor) {
-        return valor.doubleValue();
+    public Double toDouble(BigDecimal value) {
+        return value.doubleValue();
     }
 
     @TypeConverter
-    public BigDecimal paraBigDecimal(Double valor) {
-        if (valor != null) {
-            return new BigDecimal(valor);
+    public BigDecimal toBigDecimal(Double value) {
+        if (value != null) {
+            return new BigDecimal(value);
         }
         return BigDecimal.ZERO;
     }

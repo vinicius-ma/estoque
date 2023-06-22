@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="name">Nome</string>
+    <string name="price">Preço</string>
+    <string name="stock">Quantidade</string>
+    <string name="remove">Remove</string>
+    <string name="cancel">Cancelar</string>
+    <string name="product_edit_dialog_title">Editar produto</string>
+    <string name="product_edit_dialog_positive_button_title">Editar</string>
+    <string name="product_save_dialog_title">Salvar Novo Produto</string>
+    <string name="product_save_dialog_positive_button_title">Salvar</string>
+</resources>

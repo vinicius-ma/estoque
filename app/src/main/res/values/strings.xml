@@ -1,7 +1,12 @@
 <resources>
-    <string name="app_name">Estoque</string>
-    <string name="nome">Nome</string>
-    <string name="preco">Preço</string>
-    <string name="quantidade">Quantidade</string>
+    <string name="app_name" translatable="false">Estoque</string>
+    <string name="name">Name</string>
+    <string name="price">Price</string>
+    <string name="stock">Stock</string>
     <string name="remove">Remove</string>
+    <string name="cancel">Cancel</string>
+    <string name="product_edit_dialog_positive_button_title">Edit</string>
+    <string name="product_save_dialog_title">Save New Product</string>
+    <string name="product_save_dialog_positive_button_title">Save</string>
+    <string name="product_edit_dialog_title">Edit Product</string>
 </resources>
