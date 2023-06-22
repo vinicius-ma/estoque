@@ -7,23 +7,23 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
-import br.com.vinma.estoque.model.Product;
+import br.com.vinma.estoque.model.Produto;
 
 @Dao
 public interface ProductDAO {
 
     @Insert
-    long save(Product product);
+    long save(Produto product);
 
     @Update
-    void update(Product product);
+    void update(Produto product);
 
-    @Query("SELECT * FROM Product")
-    List<Product> findAll();
+    @Query("SELECT * FROM Produto")
+    List<Produto> findAll();
 
-    @Query("SELECT * FROM Product WHERE id = :id")
-    Product findProductById(long id);
+    @Query("SELECT * FROM Produto WHERE id = :id")
+    Produto findProductById(long id);
 
     @Delete
-    void remove(Product product);
+    void remove(Produto product);
 }

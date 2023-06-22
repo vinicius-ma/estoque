@@ -11,7 +11,8 @@ import br.com.vinma.estoque.R;
 import br.com.vinma.estoque.asynctask.BaseAsyncTask;
 import br.com.vinma.estoque.database.EstoqueDatabase;
 import br.com.vinma.estoque.database.dao.ProductDAO;
-import br.com.vinma.estoque.model.Product;
+import br.com.vinma.estoque.model.Produto;
+
 import br.com.vinma.estoque.ui.dialog.ProductEditDialog;
 import br.com.vinma.estoque.ui.dialog.ProductSaveDialog;
 import br.com.vinma.estoque.ui.recyclerview.adapter.ProductsListAdapter;
@@ -50,7 +51,7 @@ public class ProductListActivity extends AppCompatActivity {
         adapter.setOnItemClickRemoveContextMenuListener(this::remove);
     }
 
-    private void remove(int position, Product productRemoved) {
+    private void remove(int position, Produto productRemoved) {
         new BaseAsyncTask<>(() -> {
             dao.remove(productRemoved);
             return null;
@@ -67,7 +68,7 @@ public class ProductListActivity extends AppCompatActivity {
         new ProductSaveDialog(this, this::save).show();
     }
 
-    private void save(Product product) {
+    private void save(Produto product) {
         new BaseAsyncTask<>(() -> {
             long id = dao.save(product);
             return dao.findProductById(id);
@@ -76,13 +77,13 @@ public class ProductListActivity extends AppCompatActivity {
         ).execute();
     }
 
-    private void openEditProductForm(int position, Product product) {
+    private void openEditProductForm(int position, Produto product) {
         new ProductEditDialog(this, product,
                 productEdited -> edit(position, productEdited))
                 .show();
     }
 
-    private void edit(int position, Product product) {
+    private void edit(int position, Produto product) {
         new BaseAsyncTask<>(() -> {
             dao.update(product);
             return product;

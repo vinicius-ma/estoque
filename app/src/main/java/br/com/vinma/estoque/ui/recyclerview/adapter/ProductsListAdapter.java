@@ -17,7 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 import br.com.vinma.estoque.R;
-import br.com.vinma.estoque.model.Product;
+import br.com.vinma.estoque.model.Produto;
 
 public class ProductsListAdapter extends
         RecyclerView.Adapter<ProductsListAdapter.ViewHolder> {
@@ -27,7 +27,7 @@ public class ProductsListAdapter extends
             onItemClickRemoveContextMenuListener = (position, productRemoved) -> {
     };
     private final Context context;
-    private final List<Product> products = new ArrayList<>();
+    private final List<Produto> products = new ArrayList<>();
 
     public ProductsListAdapter(Context context,
                                OnItemClickListener onItemClickListener) {
@@ -48,7 +48,7 @@ public class ProductsListAdapter extends
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Product product = products.get(position);
+        Produto product = products.get(position);
         holder.bind(product);
     }
 
@@ -57,20 +57,20 @@ public class ProductsListAdapter extends
         return products.size();
     }
 
-    public void update(List<Product> products) {
+    public void update(List<Produto> products) {
         this.products.clear();
         this.products.addAll(products);
         this.notifyItemRangeInserted(0, this.products.size());
     }
 
-    public void add(Product... products) {
+    public void add(Produto... products) {
         int sizeCurrent = this.products.size();
         Collections.addAll(this.products, products);
         int sizeNew = this.products.size();
         notifyItemRangeInserted(sizeCurrent, sizeNew);
     }
 
-    public void edit(int position, Product product) {
+    public void edit(int position, Produto product) {
         products.set(position, product);
         notifyItemChanged(position);
     }
@@ -86,7 +86,7 @@ public class ProductsListAdapter extends
         private final TextView NameTv;
         private final TextView priceTv;
         private final TextView stockTv;
-        private Product product;
+        private Produto product;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -117,12 +117,12 @@ public class ProductsListAdapter extends
                     .onItemClick(getAdapterPosition(), product));
         }
 
-        void bind(Product product) {
+        void bind(Produto product) {
             this.product = product;
             idTv.setText(String.valueOf(product.getId()));
-            NameTv.setText(product.getName());
-            priceTv.setText(formatToCurrency(product.getPrice()));
-            stockTv.setText(String.valueOf(product.getStock()));
+            NameTv.setText(product.getNome());
+            priceTv.setText(formatToCurrency(product.getPreco()));
+            stockTv.setText(String.valueOf(product.getQuantidade()));
         }
 
         private String formatToCurrency(BigDecimal value) {
@@ -133,11 +133,11 @@ public class ProductsListAdapter extends
     }
 
     public interface OnItemClickListener {
-        void onItemClick(int position, Product product);
+        void onItemClick(int position, Produto product);
     }
 
     public interface OnItemClickRemoveContextMenuListener {
-        void onItemClick(int position, Product productRemoved);
+        void onItemClick(int position, Produto productRemoved);
     }
 
 }

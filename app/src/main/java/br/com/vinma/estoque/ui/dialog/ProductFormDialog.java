@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 
 import androidx.appcompat.app.AlertDialog;
 import br.com.vinma.estoque.R;
-import br.com.vinma.estoque.model.Product;
+import br.com.vinma.estoque.model.Produto;
 
 abstract public class ProductFormDialog {
 
@@ -21,7 +21,7 @@ abstract public class ProductFormDialog {
     private final String title_button_positive;
     private final ConfirmationListener listener;
     private final Context context;
-    private Product product;
+    private Produto product;
 
     ProductFormDialog(Context context,
                       String title,
@@ -37,7 +37,7 @@ abstract public class ProductFormDialog {
                       String title,
                       String title_button_positive,
                       ConfirmationListener listener,
-                      Product product) {
+                      Produto product) {
         this(context, title, title_button_positive, listener);
         this.product = product;
     }
@@ -66,11 +66,11 @@ abstract public class ProductFormDialog {
             idTv.setText(String.valueOf(product.getId()));
             idTv.setVisibility(View.VISIBLE);
             EditText nameEt = getEditText(inflatedView, R.id.dialog_product_form_name);
-            nameEt.setText(product.getName());
+            nameEt.setText(product.getNome());
             EditText PriceEt = getEditText(inflatedView, R.id.dialog_product_form_price);
-            PriceEt.setText(product.getPrice().toString());
+            PriceEt.setText(product.getPreco().toString());
             EditText StockEt = getEditText(inflatedView, R.id.dialog_product_form_stock);
-            StockEt.setText(String.valueOf(product.getStock()));
+            StockEt.setText(String.valueOf(product.getQuantidade()));
         }
     }
 
@@ -79,7 +79,7 @@ abstract public class ProductFormDialog {
         BigDecimal price = tryConvertPrice(priceEt);
         int stock = tryConvertStock(stockEt);
         long id = fulfillId();
-        Product product = new Product(id, name, price, stock);
+        Produto product = new Produto(id, name, price, stock);
         listener.onConfirmed(product);
     }
 
@@ -113,7 +113,7 @@ abstract public class ProductFormDialog {
     }
 
     public interface ConfirmationListener {
-        void onConfirmed(Product product);
+        void onConfirmed(Produto product);
     }
 
 
