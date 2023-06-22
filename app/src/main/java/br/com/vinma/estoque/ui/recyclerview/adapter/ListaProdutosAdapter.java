@@ -1,4 +1,4 @@
-package br.com.alura.estoque.ui.recyclerview.adapter;
+package br.com.vinma.estoque.ui.recyclerview.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,16 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-import br.com.alura.estoque.R;
-import br.com.alura.estoque.model.Produto;
+import br.com.vinma.estoque.R;
+import br.com.vinma.estoque.model.Produto;
 
 public class ListaProdutosAdapter extends
         RecyclerView.Adapter<ListaProdutosAdapter.ViewHolder> {

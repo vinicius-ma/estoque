@@ -1,4 +1,4 @@
-package br.com.alura.estoque.ui.dialog;
+package br.com.vinma.estoque.ui.dialog;
 
 import android.content.Context;
 

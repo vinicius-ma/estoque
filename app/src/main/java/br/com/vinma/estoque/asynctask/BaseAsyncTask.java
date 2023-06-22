@@ -1,4 +1,4 @@
-package br.com.alura.estoque.asynctask;
+package br.com.vinma.estoque.asynctask;
 
 import android.os.AsyncTask;
 

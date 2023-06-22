@@ -1,8 +1,8 @@
-package br.com.alura.estoque.ui.dialog;
+package br.com.vinma.estoque.ui.dialog;
 
 import android.content.Context;
 
-import br.com.alura.estoque.model.Produto;
+import br.com.vinma.estoque.model.Produto;
 
 public class EditaProdutoDialog extends FormularioProdutoDialog {
 

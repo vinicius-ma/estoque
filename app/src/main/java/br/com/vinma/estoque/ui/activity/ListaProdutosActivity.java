@@ -1,19 +1,20 @@
-package br.com.alura.estoque.ui.activity;
+package br.com.vinma.estoque.ui.activity;
 
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
-import br.com.alura.estoque.R;
-import br.com.alura.estoque.asynctask.BaseAsyncTask;
-import br.com.alura.estoque.database.EstoqueDatabase;
-import br.com.alura.estoque.database.dao.ProdutoDAO;
-import br.com.alura.estoque.model.Produto;
-import br.com.alura.estoque.ui.dialog.EditaProdutoDialog;
-import br.com.alura.estoque.ui.dialog.SalvaProdutoDialog;
-import br.com.alura.estoque.ui.recyclerview.adapter.ListaProdutosAdapter;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import br.com.vinma.estoque.R;
+import br.com.vinma.estoque.asynctask.BaseAsyncTask;
+import br.com.vinma.estoque.database.EstoqueDatabase;
+import br.com.vinma.estoque.database.dao.ProdutoDAO;
+import br.com.vinma.estoque.model.Produto;
+import br.com.vinma.estoque.ui.dialog.EditaProdutoDialog;
+import br.com.vinma.estoque.ui.dialog.SalvaProdutoDialog;
+import br.com.vinma.estoque.ui.recyclerview.adapter.ListaProdutosAdapter;
 
 public class ListaProdutosActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package br.com.alura.estoque.database.converter;
+package br.com.vinma.estoque.database.converter;
 
 import java.math.BigDecimal;
 

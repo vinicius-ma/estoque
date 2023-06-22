@@ -1,4 +1,4 @@
-package br.com.alura.estoque.model;
+package br.com.vinma.estoque.model;
 
 import java.math.BigDecimal;
 

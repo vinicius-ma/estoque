@@ -1,4 +1,4 @@
-package br.com.alura.estoque.database.dao;
+package br.com.vinma.estoque.database.dao;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
-import br.com.alura.estoque.model.Produto;
+import br.com.vinma.estoque.model.Produto;
 
 @Dao
 public interface ProdutoDAO {

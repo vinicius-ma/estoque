@@ -1,4 +1,4 @@
-package br.com.alura.estoque;
+package br.com.vinma.estoque;
 
 import android.content.Context;
 

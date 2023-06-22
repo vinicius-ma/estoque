@@ -1,4 +1,4 @@
-package br.com.alura.estoque.ui.dialog;
+package br.com.vinma.estoque.ui.dialog;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,8 +12,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.math.BigDecimal;
 
 import androidx.appcompat.app.AlertDialog;
-import br.com.alura.estoque.R;
-import br.com.alura.estoque.model.Produto;
+import br.com.vinma.estoque.R;
+import br.com.vinma.estoque.model.Produto;
 
 abstract public class FormularioProdutoDialog {
 
