@@ -1,11 +1,15 @@
 package br.com.vinma.estoque.ui.activity;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.io.IOException;
+import java.util.List;
 
 import br.com.vinma.estoque.R;
 import br.com.vinma.estoque.asynctask.BaseAsyncTask;
@@ -13,9 +17,12 @@ import br.com.vinma.estoque.database.EstoqueDatabase;
 import br.com.vinma.estoque.database.dao.ProductDAO;
 import br.com.vinma.estoque.model.Produto;
 
+import br.com.vinma.estoque.retrofit.EstoqueRetrofit;
 import br.com.vinma.estoque.ui.dialog.ProductEditDialog;
 import br.com.vinma.estoque.ui.dialog.ProductSaveDialog;
 import br.com.vinma.estoque.ui.recyclerview.adapter.ProductsListAdapter;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class ProductListActivity extends AppCompatActivity {
 
@@ -39,9 +46,27 @@ public class ProductListActivity extends AppCompatActivity {
     }
 
     private void findProducts() {
-        new BaseAsyncTask<>(dao::findAll,
-                result -> adapter.update(result))
-                .execute();
+        Call<List<Produto>> call = new EstoqueRetrofit().getProductService().findAll();
+        new BaseAsyncTask<>(() ->{
+            try {
+                Response<List<Produto>> response = call.execute();
+                List<Produto> productList = response.body();
+                return productList;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }, productList -> {
+                if(productList != null){
+                    adapter.update(productList);
+                } else{
+                    toast("Não foi possível buscar os produtos do servidor!");
+                }
+        }).execute();
+
+//        new BaseAsyncTask<>(dao::findAll,
+//                result -> adapter.update(result))
+//                .execute();
     }
 
     private void configureProductsList() {
@@ -90,6 +115,10 @@ public class ProductListActivity extends AppCompatActivity {
         }, productEdited ->
                 adapter.edit(position, productEdited))
                 .execute();
+    }
+
+    private void toast(String message){
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
 
