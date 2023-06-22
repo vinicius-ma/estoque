@@ -32,3 +32,4 @@ google-services.json
 # Android Profiling
 *.hprof
 web-server/database/main/db.lck
+web-server/.fuse_*
