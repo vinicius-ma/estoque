@@ -1,0 +1,87 @@
+{"products":[
+    {
+      "id": 1,
+      "nome": "Bola de Futsal",
+      "preco": 89.99,
+      "quantidade": 8
+    },
+    {
+    "id": 2,
+    "nome": "Bola de Futebol",
+    "preco": 129.99,
+    "quantidade": 12
+    },
+    {
+    "id": 3,
+    "nome": "Chuteira de Futebol",
+    "preco": 55.99,
+    "quantidade": 25
+    },
+    {
+    "id": 4,
+    "nome": "Bola de Futebol",
+    "preco": 129.99,
+    "quantidade": 12
+    },
+    {
+    "id": 5,
+    "nome": "Camiseta esportiva",
+    "preco": 79.90,
+    "quantidade": 15
+    },
+    {
+    "id": 6,
+    "nome": "Luvas de academia",
+    "preco": 24.99,
+    "quantidade": 35
+    },
+    {
+    "id": 7,
+    "nome": "Boné",
+    "preco": 39.90,
+    "quantidade": 23
+    },
+    {
+    "id": 8,
+    "nome": "Tênis de corrida",
+    "preco": 299.90,
+    "quantidade": 13
+    },
+    {
+    "id": 9,
+    "nome": "Coqueteleira para academia",
+    "preco": 49.90,
+    "quantidade": 30
+    },
+    {
+    "id": 10,
+    "nome": "Joelheira (par)",
+    "preco": 69.90,
+    "quantidade": 4
+    },
+    {
+    "id": 11,
+    "nome": "Jaqueta Com Capuz Esportiva",
+    "preco": 186.99,
+    "quantidade": 8
+    },
+    {
+    "id": 12,
+    "nome": "Calça Legging",
+    "preco": 129.90,
+    "quantidade": 34
+    },
+    {
+    "id": 13,
+    "nome": "Kit Esporte Premium",
+    "preco": 205.46,
+    "quantidade": 7
+    },
+    {
+    "id": 14,
+    "nome": "Bolsa Academia Feminina",
+    "preco": 128.16,
+    "quantidade": 3
+    }
+  ]
+}

@@ -32,7 +32,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/layout_id"
             app:layout_constraintEnd_toStartOf="@id/product_item_variables_layout"
-            tools:text="Computador i5"
+            tools:text="@sample/products.json/products/nome"
             />
         <!-- Id Layout -->
         <androidx.cardview.widget.CardView
@@ -67,7 +67,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="123"
+                    tools:text="@sample/products.json/products/id"
                     />
                 <!-- id label-->
                 <TextView
@@ -121,7 +121,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="R$ 1000,00"
+                    tools:text="@sample/products.json/products/preco"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
             <!-- Stock Layout -->
@@ -165,7 +165,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/stock_label"
                     app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="100"
+                    tools:text="@sample/products.json/products/quantidade"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
