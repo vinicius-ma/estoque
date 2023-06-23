@@ -15,6 +15,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import br.com.vinma.estoque.R;
 import br.com.vinma.estoque.model.Produto;
@@ -126,7 +127,7 @@ public class ProductsListAdapter extends
         }
 
         private String formatToCurrency(BigDecimal value) {
-            NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
+            NumberFormat numberFormat = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
             return numberFormat.format(value);
         }
 

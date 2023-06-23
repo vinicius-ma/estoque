@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="52dp"
     android:layout_margin="8dp"
     android:elevation="5dp"
     app:cardCornerRadius="10dp"
@@ -11,28 +11,32 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
         >
         <!-- Item Name -->
         <TextView
             android:id="@+id/product_item_name"
             android:layout_width="0dp"
-            android:layout_height="70dp"
-            android:background="@color/colorPrimary"
-            android:gravity="bottom|start"
+            android:layout_height="0dp"
+            android:gravity="start|center"
             android:lines="1"
-            android:paddingVertical="18sp"
-            android:paddingStart="48sp"
+            android:ellipsize="marquee"
+            android:paddingVertical="8sp"
+            android:scrollHorizontally="true"
+            android:paddingStart="8dp"
             android:paddingEnd="0dp"
+            android:textSize="20sp"
             android:textColor="@android:color/white"
-            android:autoSizeTextType="uniform"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/layout_id"
+            app:layout_constraintEnd_toStartOf="@id/product_item_variables_layout"
             tools:text="Computador i5"
             />
         <!-- Id Layout -->
         <androidx.cardview.widget.CardView
+            android:id="@+id/layout_id"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
@@ -40,7 +44,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:elevation="5dp"
             app:cardCornerRadius="10dp"
-            android:layout_margin="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginVertical="5dp"
             >
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
@@ -50,11 +55,11 @@
                 <!-- item id -->
                 <TextView
                     android:id="@+id/produto_item_id"
-                    android:layout_width="38sp"
+                    android:layout_width="40sp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textColor="@android:color/white"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textStyle="normal"
                     android:paddingHorizontal="5sp"
                     android:paddingBottom="3sp"
@@ -74,14 +79,13 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:textColor="@android:color/white"
-                    android:textSize="12sp"
+                    android:textSize="10sp"
                     android:layout_marginTop="2sp"
                     android:text="id"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
-
         <!-- Variables Layout -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/product_item_variables_layout"
@@ -112,7 +116,7 @@
                     android:autoSizeTextType="uniform"
                     android:lines="1"
                     android:gravity="center"
-                    android:textStyle="bold"
+                    android:textStyle="normal"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -125,7 +129,7 @@
                 android:id="@+id/stock_Layout"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_constraintHeight_percent="0.3"
+                app:layout_constraintHeight_percent="0.35"
                 app:layout_constraintTop_toBottomOf="@id/price_Layout"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -140,8 +144,9 @@
                     app:layout_constraintTop_toTopOf="@id/product_item_stock"
                     app:layout_constraintBottom_toBottomOf="@id/product_item_stock"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/product_item_stock"
                     app:layout_constraintVertical_bias="0.2"
-                    android:layout_marginStart="5dp"
+                    app:layout_constraintHorizontal_bias="1.0"
                     android:text="Qty"
                     android:textSize="16sp"
                     android:textStyle="normal"
@@ -150,12 +155,10 @@
                 <!-- Item Stock -->
                 <TextView
                     android:id="@+id/product_item_stock"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:paddingEnd="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintHorizontal_bias="0.0"
                     android:textColor="@android:color/primary_text_light"
-                    android:autoSizeTextType="uniform"
-                    android:lines="1"
                     android:gravity="center"
                     android:textStyle="normal"
                     app:layout_constraintTop_toTopOf="parent"
