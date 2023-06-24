@@ -1,5 +1,6 @@
 package br.com.vinma.estoque.ui.activity;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ import br.com.vinma.estoque.database.EstoqueDatabase;
 import br.com.vinma.estoque.database.dao.ProductDAO;
 import br.com.vinma.estoque.model.Produto;
 
+import br.com.vinma.estoque.repository.ProductRepository;
 import br.com.vinma.estoque.retrofit.EstoqueRetrofit;
 import br.com.vinma.estoque.ui.dialog.ProductEditDialog;
 import br.com.vinma.estoque.ui.dialog.ProductSaveDialog;
@@ -42,32 +44,11 @@ public class ProductListActivity extends AppCompatActivity {
         EstoqueDatabase db = EstoqueDatabase.getInstance(this);
         dao = db.getProductDAO();
 
-        findProducts();
+        ProductRepository repository = new ProductRepository(this);
+        repository.findProducts(adapter::update);
     }
 
-    private void findProducts() {
-        Call<List<Produto>> call = new EstoqueRetrofit().getProductService().findAll();
-        new BaseAsyncTask<>(() ->{
-            try {
-                Response<List<Produto>> response = call.execute();
-                List<Produto> productList = response.body();
-                return productList;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }, productList -> {
-                if(productList != null){
-                    adapter.update(productList);
-                } else{
-                    toast("Não foi possível buscar os produtos do servidor!");
-                }
-        }).execute();
 
-//        new BaseAsyncTask<>(dao::findAll,
-//                result -> adapter.update(result))
-//                .execute();
-    }
 
     private void configureProductsList() {
         RecyclerView products = findViewById(R.id.activity_products_list_listview);
