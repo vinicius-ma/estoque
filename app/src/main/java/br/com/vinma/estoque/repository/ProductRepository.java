@@ -16,27 +16,25 @@ import retrofit2.Response;
 
 public class ProductRepository {
 
-    private final Activity activity;
     private final ProductDAO dao;
 
     public ProductRepository(Activity activity) {
-        this.activity = activity;
         this.dao = EstoqueDatabase.getInstance(activity).getProductDAO();
     }
 
-    public void findProducts(ProductsLoadedListener listener) {
+    public void findProducts(DataDownloadedListener<List<Produto>> listener) {
         findProductsInternal(listener);
     }
 
-    private void findProductsInternal(ProductsLoadedListener listener) {
+    private void findProductsInternal(DataDownloadedListener<List<Produto>> listener) {
         new BaseAsyncTask<>(dao::findAll,
                 result -> {
-                    listener.onProductsLoaded(result);
+                    listener.onDownloaded(result);
                     findProductsOnApi(listener);
                 }).execute();
     }
 
-    private void findProductsOnApi(ProductsLoadedListener listener) {
+    private void findProductsOnApi(DataDownloadedListener<List<Produto>> listener) {
         Call<List<Produto>> call = new EstoqueRetrofit().getProductService().findAll();
         new BaseAsyncTask<>(() ->{
             try {
@@ -47,10 +45,17 @@ public class ProductRepository {
                 e.printStackTrace();
             }
             return dao.findAll();
-        }, listener::onProductsLoaded).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }, listener::onDownloaded).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    public interface ProductsLoadedListener {
-        void onProductsLoaded(List<Produto> products);
+    public void save(Produto product, DataDownloadedListener<Produto> listener) {
+        new BaseAsyncTask<>(() -> {
+            long id = dao.save(product);
+            return dao.findProductById(id);
+        }, listener::onDownloaded).execute();
+    }
+
+    public interface DataDownloadedListener<T> {
+        void onDownloaded(T result);
     }
 }
