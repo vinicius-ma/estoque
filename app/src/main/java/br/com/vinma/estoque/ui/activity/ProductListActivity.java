@@ -38,7 +38,7 @@ public class ProductListActivity extends AppCompatActivity {
         EstoqueDatabase db = EstoqueDatabase.getInstance(this);
         dao = db.getProductDAO();
 
-        repository = new ProductRepository(this);
+        repository = new ProductRepository(dao);
         repository.findProducts(adapter::update);
     }
 
@@ -65,7 +65,18 @@ public class ProductListActivity extends AppCompatActivity {
     private void openFormSaveProduct() {
         new ProductSaveDialog(this,
                 productSaved -> repository.save(productSaved,
-                        adapter::add)).show();
+                        new ProductRepository.DataDownloadedCallback<Produto>() {
+                            @Override
+                            public void onSuccess(Produto savedProduct) {
+                                adapter.add(savedProduct);
+                                toast("Produto salvo com sucesso!");
+                            }
+
+                            @Override
+                            public void onFailure(String error) {
+                                toast("Falha ao salvar produto: " + error);
+                            }
+                        })).show();
     }
 
     private void openEditProductForm(int position, Produto product) {
@@ -81,5 +92,9 @@ public class ProductListActivity extends AppCompatActivity {
         }, productEdited ->
                 adapter.edit(position, productEdited))
                 .execute();
+    }
+
+    private void toast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

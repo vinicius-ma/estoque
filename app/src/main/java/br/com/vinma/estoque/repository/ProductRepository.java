@@ -2,6 +2,7 @@ package br.com.vinma.estoque.repository;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.IOException;
 import java.util.List;
@@ -11,15 +12,20 @@ import br.com.vinma.estoque.database.EstoqueDatabase;
 import br.com.vinma.estoque.database.dao.ProductDAO;
 import br.com.vinma.estoque.model.Produto;
 import br.com.vinma.estoque.retrofit.EstoqueRetrofit;
+import br.com.vinma.estoque.retrofit.service.ProductService;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.internal.EverythingIsNonNull;
 
 public class ProductRepository {
 
     private final ProductDAO dao;
+    private final ProductService service;
 
-    public ProductRepository(Activity activity) {
-        this.dao = EstoqueDatabase.getInstance(activity).getProductDAO();
+    public ProductRepository(ProductDAO dao) {
+        this.dao = dao;
+        this.service = new EstoqueRetrofit().getProductService();
     }
 
     public void findProducts(DataDownloadedListener<List<Produto>> listener) {
@@ -48,14 +54,44 @@ public class ProductRepository {
         }, listener::onDownloaded).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    public void save(Produto product, DataDownloadedListener<Produto> listener) {
+    public void save(Produto product, DataDownloadedCallback<Produto> callback) {
+        saveInApi(product, callback);
+    }
+
+    private void saveInApi(Produto product, DataDownloadedCallback<Produto> callback) {
+        Call<Produto> call = service.save(product);
+        call.enqueue(new Callback<Produto>() {
+            @Override
+            @EverythingIsNonNull
+            public void onResponse(Call<Produto> call, Response<Produto> response) {
+                Produto productReceived = response.body();
+                if(response.isSuccessful()) {
+                    if (productReceived != null) saveInternal(productReceived, callback);
+                } else callback.onFailure("Falha no recebimento dos dados");
+            }
+
+            @Override
+            @EverythingIsNonNull
+            public void onFailure(Call<Produto> call, Throwable t) {
+                callback.onFailure("Falha na comunicação: " + t.getMessage());
+            }
+        });
+    }
+
+    private void saveInternal(Produto productReceived, DataDownloadedCallback<Produto> callback) {
         new BaseAsyncTask<>(() -> {
-            long id = dao.save(product);
+            long id = dao.save(productReceived);
             return dao.findProductById(id);
-        }, listener::onDownloaded).execute();
+        }, callback::onSuccess)
+                .execute();
     }
 
     public interface DataDownloadedListener<T> {
         void onDownloaded(T result);
+    }
+
+    public interface DataDownloadedCallback<T> {
+        void onSuccess(T result);
+        void onFailure(String error);
     }
 }
