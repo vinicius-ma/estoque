@@ -63,8 +63,8 @@ public class ProductRepository {
         Call<Produto> call = service.save(product);
         call.enqueue(new BaseCallback<>(new BaseCallback.BaseResponseCallback<Produto>() {
             @Override
-            public void onSuccess(Produto productReceived) {
-                callback.onSuccess(productReceived);
+            public void onSuccess(Produto productSaved) {
+                saveInternal(productSaved, callback);
             }
 
             @Override
@@ -75,15 +75,15 @@ public class ProductRepository {
     }
 
     public void edit(Produto product, DataDownloadedCallback<Produto> callback) {
+        editInApi(product, callback);
+    }
 
+    private void editInApi(Produto product, DataDownloadedCallback<Produto> callback) {
         Call<Produto> call = service.edit(product.getId(), product);
         call.enqueue(new BaseCallback<>(new BaseCallback.BaseResponseCallback<Produto>() {
             @Override
             public void onSuccess(Produto result) {
-                new BaseAsyncTask<>(() -> {
-                    dao.update(product);
-                    return product;
-                }, callback::onSuccess).execute();
+                editInternal(product, callback);
             }
 
             @Override
@@ -91,6 +91,13 @@ public class ProductRepository {
                 callback.onFailure(errorMessage);
             }
         }));
+    }
+
+    private void editInternal(Produto product, DataDownloadedCallback<Produto> callback) {
+        new BaseAsyncTask<>(() -> {
+            dao.update(product);
+            return product;
+        }, callback::onSuccess).execute();
     }
 
     private void saveInternal(Produto productReceived, DataDownloadedCallback<Produto> callback) {
