@@ -1,8 +1,11 @@
 package br.com.vinma.estoque.repository;
 
+import android.content.Context;
+
 import java.util.List;
 
 import br.com.vinma.estoque.asynctask.BaseAsyncTask;
+import br.com.vinma.estoque.database.EstoqueDatabase;
 import br.com.vinma.estoque.database.dao.ProductDAO;
 import br.com.vinma.estoque.model.Produto;
 import br.com.vinma.estoque.retrofit.EstoqueRetrofit;
@@ -13,11 +16,13 @@ import retrofit2.Call;
 
 public class ProductRepository {
 
+    private final Context context;
     private final ProductDAO dao;
     private final ProductService service;
 
-    public ProductRepository(ProductDAO dao) {
-        this.dao = dao;
+    public ProductRepository(Context context) {
+        this.context = context;
+        this.dao = EstoqueDatabase.getInstance(context).getProductDAO();
         this.service = new EstoqueRetrofit().getProductService();
     }
 
@@ -42,8 +47,8 @@ public class ProductRepository {
             }
 
             @Override
-            public void onFailure(String errorMessage) {
-                callback.onFailure(errorMessage);
+            public void onFailure(int errorMessageId) {
+                callback.onFailure(errorMessageId);
             }
         }));
     }
@@ -62,17 +67,18 @@ public class ProductRepository {
 
     private void saveInApi(Produto product, DataDownloadedCallback<Produto> callback) {
         Call<Produto> call = service.save(product);
-        call.enqueue(new BaseCallback<>(new BaseCallback.ResponseCallback<Produto>() {
-            @Override
-            public void onSuccess(Produto productSaved) {
-                saveInternal(productSaved, callback);
-            }
+        call.enqueue(new BaseCallback<>(
+                new BaseCallback.ResponseCallback<Produto>() {
+                @Override
+                public void onSuccess(Produto productSaved) {
+                    saveInternal(productSaved, callback);
+                }
 
-            @Override
-            public void onFailure(String errorMessage) {
-                callback.onFailure(errorMessage);
-            }
-        }));
+                @Override
+                public void onFailure(int errorMessageId) {
+                    callback.onFailure(errorMessageId);
+                }
+            }));
     }
 
     private void saveInternal(Produto productReceived, DataDownloadedCallback<Produto> callback) {
@@ -89,17 +95,18 @@ public class ProductRepository {
 
     private void editInApi(Produto product, DataDownloadedCallback<Produto> callback) {
         Call<Produto> call = service.edit(product.getId(), product);
-        call.enqueue(new BaseCallback<>(new BaseCallback.ResponseCallback<Produto>() {
-            @Override
-            public void onSuccess(Produto result) {
-                editInternal(product, callback);
-            }
+        call.enqueue(new BaseCallback<>(
+                new BaseCallback.ResponseCallback<Produto>() {
+                @Override
+                public void onSuccess(Produto result) {
+                    editInternal(product, callback);
+                }
 
-            @Override
-            public void onFailure(String errorMessage) {
-                callback.onFailure(errorMessage);
-            }
-        }));
+                @Override
+                public void onFailure(int errorMessageId) {
+                    callback.onFailure(errorMessageId);
+                }
+            }));
     }
 
     private void editInternal(Produto product, DataDownloadedCallback<Produto> callback) {
@@ -122,8 +129,8 @@ public class ProductRepository {
             }
 
             @Override
-            public void onFailure(String errorMessage) {
-                callback.onFailure(errorMessage);
+            public void onFailure(int errorMessageId) {
+                callback.onFailure(errorMessageId);
             }
         }));
     }
@@ -137,6 +144,6 @@ public class ProductRepository {
 
     public interface DataDownloadedCallback<T> {
         void onSuccess(T result);
-        void onFailure(String error);
+        void onFailure(int errorMessageId);
     }
 }

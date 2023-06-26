@@ -11,11 +11,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 
 import br.com.vinma.estoque.R;
-import br.com.vinma.estoque.asynctask.BaseAsyncTask;
-import br.com.vinma.estoque.database.EstoqueDatabase;
-import br.com.vinma.estoque.database.dao.ProductDAO;
 import br.com.vinma.estoque.model.Produto;
-
 import br.com.vinma.estoque.repository.ProductRepository;
 import br.com.vinma.estoque.ui.dialog.ProductEditDialog;
 import br.com.vinma.estoque.ui.dialog.ProductSaveDialog;
@@ -23,24 +19,24 @@ import br.com.vinma.estoque.ui.recyclerview.adapter.ProductsListAdapter;
 
 public class ProductListActivity extends AppCompatActivity {
 
-    private static final String TITLE_APPBAR = "Lista de produtos";
     private ProductsListAdapter adapter;
-    private ProductDAO dao;
     private ProductRepository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_list);
-        setTitle(TITLE_APPBAR);
+        setTitle(getString(R.string.app_name));
 
         configureProductsList();
         configureSaveProductFab();
 
-        EstoqueDatabase db = EstoqueDatabase.getInstance(this);
-        dao = db.getProductDAO();
+        repository = new ProductRepository(this);
+        findProducts();
+    }
 
-        repository = new ProductRepository(dao);
+    private void findProducts() {
         repository.findProducts(new ProductRepository.DataDownloadedCallback<List<Produto>>() {
             @Override
             public void onSuccess(List<Produto> result) {
@@ -48,8 +44,8 @@ public class ProductListActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(String error) {
-                toast("Não foi possível carregar os dados: " + error);
+            public void onFailure(int errorMessageId) {
+                toast(R.string.activity_product_list_message_find_fail);
             }
         });
     }
@@ -58,19 +54,7 @@ public class ProductListActivity extends AppCompatActivity {
         RecyclerView products = findViewById(R.id.activity_products_list_listview);
         adapter = new ProductsListAdapter(this, this::openEditProductForm);
         products.setAdapter(adapter);
-        adapter.setOnItemClickRemoveContextMenuListener(
-            (position, productSelected) -> repository.remove(productSelected, new ProductRepository.DataDownloadedCallback<Void>() {
-                @Override
-                public void onSuccess(Void body) {
-                    adapter.remove(position);
-                    toast("Produto removido com sucesso!");
-                }
-
-                @Override
-                public void onFailure(String error) {
-                    toast("Falha ao remover produto: " + error);
-                }
-            }));
+        adapter.setOnItemClickRemoveContextMenuListener(this::remove);
     }
 
     private void configureSaveProductFab() {
@@ -79,36 +63,61 @@ public class ProductListActivity extends AppCompatActivity {
     }
 
     private void openFormSaveProduct() {
-        new ProductSaveDialog(this,
-                productSaved -> repository.save(productSaved,
-                        new ProductRepository.DataDownloadedCallback<Produto>() {
-                            @Override
-                            public void onSuccess(Produto savedProduct) {
-                                adapter.add(savedProduct);
-                                toast("Produto salvo com sucesso!");
-                            }
-
-                            @Override
-                            public void onFailure(String error) {
-                                toast("Falha ao salvar produto: " + error);
-                            }
-                        })).show();
+        new ProductSaveDialog(this,this::save).show();
     }
 
     private void openEditProductForm(int position, Produto product) {
         new ProductEditDialog(this, product,
-                productCreated -> repository.edit(productCreated,
-                    new ProductRepository.DataDownloadedCallback<Produto>() {
-                        @Override
-                        public void onSuccess(Produto productEdited) {
-                            adapter.edit(position, productEdited);
-                        }
+                productCreated -> edit(position, productCreated)).show();
+    }
 
-                        @Override
-                        public void onFailure(String error) {
-                            toast("Falha ao editar produto: " + error);
-                        }
-                })).show();
+    private void save(Produto product) {
+        repository.save(product, new ProductRepository.DataDownloadedCallback<Produto>() {
+            @Override
+            public void onSuccess(Produto savedProduct) {
+                adapter.add(savedProduct);
+                toast(R.string.activity_product_List_message_save_success);
+            }
+
+            @Override
+            public void onFailure(int errorMessageId) {
+                toast(R.string.activity_product_list_Message_save_fail);
+            }
+        });
+    }
+
+    private void edit(int position, Produto product) {
+        repository.edit(product, new ProductRepository.DataDownloadedCallback<Produto>() {
+            @Override
+            public void onSuccess(Produto productEdited) {
+                adapter.edit(position, productEdited);
+                toast(R.string.activity_product_list_message_edit_success);
+            }
+
+            @Override
+            public void onFailure(int errorMessageId) {
+                toast(R.string.activity_product_list_message_edit_fail);
+            }
+        });
+    }
+
+    private void remove(int position, Produto product) {
+        repository.remove(product, new ProductRepository.DataDownloadedCallback<Void>() {
+            @Override
+            public void onSuccess(Void body) {
+                adapter.remove(position);
+                toast(R.string.activity_product_list_message_remove_success);
+            }
+
+            @Override
+            public void onFailure(int errorMessageId) {
+                toast(R.string.activity_product_list_message_remove_fail);
+            }
+        });
+    }
+
+    private void toast(int stringId){
+        toast(getString(stringId));
     }
 
     private void toast(String message) {

@@ -1,5 +1,6 @@
 package br.com.vinma.estoque.retrofit.callback;
 
+import br.com.vinma.estoque.R;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -19,18 +20,18 @@ public class BaseCallback <T> implements Callback<T> {
             T body = response.body();
             if(body != null) callback.onSuccess(body);
         } else {
-            callback.onFailure("Resposta falhou!");
+            callback.onFailure(R.string.retrofit_callback_onResponse_fail);
         }
     }
 
     @Override
     @EverythingIsNonNull
     public void onFailure(Call<T> call, Throwable t) {
-        callback.onFailure("Resposta falhou!");
+        callback.onFailure(R.string.retrofit_callback_onFailure);
     }
 
     public interface ResponseCallback<T> {
         void onSuccess(T body);
-        void onFailure(String errorMessage);
+        void onFailure(int errorMessageId);
     }
 }

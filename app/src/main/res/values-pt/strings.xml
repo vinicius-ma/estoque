@@ -9,4 +9,14 @@
     <string name="product_edit_dialog_positive_button_title">Editar</string>
     <string name="product_save_dialog_title">Salvar Novo Produto</string>
     <string name="product_save_dialog_positive_button_title">Salvar</string>
+    <string name="activity_product_list_title_appbar">Lista de produtos</string>
+    <string name="activity_product_list_message_remove_success">Produto removido com sucesso!</string>
+    <string name="activity_product_list_message_remove_fail">Falha ao remover produto!</string>
+    <string name="activity_product_List_message_save_success">Produto salvo com sucesso!</string>
+    <string name="activity_product_list_Message_save_fail">Falha ao salvar produto!</string>
+    <string name="activity_product_list_message_edit_success">Produto editado com sucesso!</string>
+    <string name="activity_product_list_message_edit_fail">Falha ao editar produto!</string>
+    <string name="activity_product_list_message_find_fail">Não foi possível carregar os dados.</string>
+    <string name="retrofit_callback_onResponse_fail">Resposta falhou!</string>
+    <string name="retrofit_callback_onFailure">Comunicação falhou!</string>
 </resources>
