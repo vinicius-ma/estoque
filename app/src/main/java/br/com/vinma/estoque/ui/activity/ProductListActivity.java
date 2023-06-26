@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.List;
+
 import br.com.vinma.estoque.R;
 import br.com.vinma.estoque.asynctask.BaseAsyncTask;
 import br.com.vinma.estoque.database.EstoqueDatabase;
@@ -39,7 +41,17 @@ public class ProductListActivity extends AppCompatActivity {
         dao = db.getProductDAO();
 
         repository = new ProductRepository(dao);
-        repository.findProducts(adapter::update);
+        repository.findProducts(new ProductRepository.DataDownloadedCallback<List<Produto>>() {
+            @Override
+            public void onSuccess(List<Produto> result) {
+                adapter.update(result);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                toast("Não foi possível carregar os dados: " + error);
+            }
+        });
     }
 
     private void configureProductsList() {

@@ -1,17 +1,15 @@
 package br.com.vinma.estoque.repository;
 
-import android.app.Activity;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.io.IOException;
 import java.util.List;
 
 import br.com.vinma.estoque.asynctask.BaseAsyncTask;
-import br.com.vinma.estoque.database.EstoqueDatabase;
 import br.com.vinma.estoque.database.dao.ProductDAO;
 import br.com.vinma.estoque.model.Produto;
 import br.com.vinma.estoque.retrofit.EstoqueRetrofit;
+import br.com.vinma.estoque.retrofit.callback.BaseCallback;
 import br.com.vinma.estoque.retrofit.service.ProductService;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,30 +26,38 @@ public class ProductRepository {
         this.service = new EstoqueRetrofit().getProductService();
     }
 
-    public void findProducts(DataDownloadedListener<List<Produto>> listener) {
-        findProductsInternal(listener);
+    public void findProducts(DataDownloadedCallback<List<Produto>> callback) {
+        findProductsInternal(callback);
     }
 
-    private void findProductsInternal(DataDownloadedListener<List<Produto>> listener) {
+    private void findProductsInternal(DataDownloadedCallback<List<Produto>> callback) {
         new BaseAsyncTask<>(dao::findAll,
                 result -> {
-                    listener.onDownloaded(result);
-                    findProductsOnApi(listener);
+                    callback.onSuccess(result);
+                    findProductsOnApi(callback);
                 }).execute();
     }
 
-    private void findProductsOnApi(DataDownloadedListener<List<Produto>> listener) {
-        Call<List<Produto>> call = new EstoqueRetrofit().getProductService().findAll();
-        new BaseAsyncTask<>(() ->{
-            try {
-                Response<List<Produto>> response = call.execute();
-                List<Produto> productList = response.body();
-                dao.save(productList);
-            } catch (IOException e) {
-                e.printStackTrace();
+    private void findProductsOnApi(DataDownloadedCallback<List<Produto>> callback) {
+        Call<List<Produto>> call = service.findAll();
+        call.enqueue(new BaseCallback<List<Produto>>(new BaseCallback.BaseResponseCallback<List<Produto>>() {
+            @Override
+            public void onSuccess(List<Produto> productsDownloaded) {
+                upateInternal(productsDownloaded, callback);
             }
-            return dao.findAll();
-        }, listener::onDownloaded).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            @Override
+            public void onFailure(String errorMessage) {
+                callback.onFailure(errorMessage);
+            }
+        }));
+    }
+
+    private void upateInternal(List<Produto> products,
+                               DataDownloadedCallback<List<Produto>> callback) {
+        new BaseAsyncTask<>(() -> {
+                dao.save(products);
+                return dao.findAll();
+        }, callback::onSuccess).execute();
     }
 
     public void save(Produto product, DataDownloadedCallback<Produto> callback) {
@@ -60,22 +66,17 @@ public class ProductRepository {
 
     private void saveInApi(Produto product, DataDownloadedCallback<Produto> callback) {
         Call<Produto> call = service.save(product);
-        call.enqueue(new Callback<Produto>() {
+        call.enqueue(new BaseCallback<Produto>(new BaseCallback.BaseResponseCallback<Produto>() {
             @Override
-            @EverythingIsNonNull
-            public void onResponse(Call<Produto> call, Response<Produto> response) {
-                Produto productReceived = response.body();
-                if(response.isSuccessful()) {
-                    if (productReceived != null) saveInternal(productReceived, callback);
-                } else callback.onFailure("Falha no recebimento dos dados");
+            public void onSuccess(Produto productReceived) {
+                callback.onSuccess(productReceived);
             }
 
             @Override
-            @EverythingIsNonNull
-            public void onFailure(Call<Produto> call, Throwable t) {
-                callback.onFailure("Falha na comunicação: " + t.getMessage());
+            public void onFailure(String errorMessage) {
+                callback.onFailure(errorMessage);
             }
-        });
+        }));
     }
 
     private void saveInternal(Produto productReceived, DataDownloadedCallback<Produto> callback) {
@@ -84,10 +85,6 @@ public class ProductRepository {
             return dao.findProductById(id);
         }, callback::onSuccess)
                 .execute();
-    }
-
-    public interface DataDownloadedListener<T> {
-        void onDownloaded(T result);
     }
 
     public interface DataDownloadedCallback<T> {
