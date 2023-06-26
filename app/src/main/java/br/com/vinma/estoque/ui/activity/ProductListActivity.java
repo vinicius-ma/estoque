@@ -58,15 +58,19 @@ public class ProductListActivity extends AppCompatActivity {
         RecyclerView products = findViewById(R.id.activity_products_list_listview);
         adapter = new ProductsListAdapter(this, this::openEditProductForm);
         products.setAdapter(adapter);
-        adapter.setOnItemClickRemoveContextMenuListener(this::remove);
-    }
+        adapter.setOnItemClickRemoveContextMenuListener(
+            (position, productSelected) -> repository.remove(productSelected, new ProductRepository.DataDownloadedCallback<Void>() {
+                @Override
+                public void onSuccess(Void body) {
+                    adapter.remove(position);
+                    toast("Produto removido com sucesso!");
+                }
 
-    private void remove(int position, Produto productRemoved) {
-        new BaseAsyncTask<>(() -> {
-            dao.remove(productRemoved);
-            return null;
-        }, result -> adapter.remove(position)
-        ).execute();
+                @Override
+                public void onFailure(String error) {
+                    toast("Falha ao remover produto: " + error);
+                }
+            }));
     }
 
     private void configureSaveProductFab() {

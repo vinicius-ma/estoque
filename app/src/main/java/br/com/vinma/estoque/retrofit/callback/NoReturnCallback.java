@@ -5,19 +5,19 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.internal.EverythingIsNonNull;
 
-public class BaseCallback <T> implements Callback<T> {
-    private final ResponseCallback<T> callback;
+public class NoReturnCallback implements Callback<Void> {
 
-    public BaseCallback(ResponseCallback<T> callback) {
+    private final ResponseCallback callback;
+
+    public NoReturnCallback(ResponseCallback callback) {
         this.callback = callback;
     }
 
     @Override
     @EverythingIsNonNull
-    public void onResponse(Call<T> call, Response<T> response) {
+    public void onResponse(Call<Void> call, Response<Void> response) {
         if (response.isSuccessful()){
-            T body = response.body();
-            if(body != null) callback.onSuccess(body);
+            callback.onSuccess();
         } else {
             callback.onFailure("Resposta falhou!");
         }
@@ -25,12 +25,12 @@ public class BaseCallback <T> implements Callback<T> {
 
     @Override
     @EverythingIsNonNull
-    public void onFailure(Call<T> call, Throwable t) {
+    public void onFailure(Call<Void> call, Throwable t) {
         callback.onFailure("Resposta falhou!");
     }
 
-    public interface ResponseCallback<T> {
-        void onSuccess(T body);
+    public interface ResponseCallback {
+        void onSuccess();
         void onFailure(String errorMessage);
     }
 }
