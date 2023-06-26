@@ -1,8 +1,5 @@
 package br.com.vinma.estoque.repository;
 
-import android.os.AsyncTask;
-
-import java.io.IOException;
 import java.util.List;
 
 import br.com.vinma.estoque.asynctask.BaseAsyncTask;
@@ -12,9 +9,6 @@ import br.com.vinma.estoque.retrofit.EstoqueRetrofit;
 import br.com.vinma.estoque.retrofit.callback.BaseCallback;
 import br.com.vinma.estoque.retrofit.service.ProductService;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.internal.EverythingIsNonNull;
 
 public class ProductRepository {
 
@@ -40,11 +34,12 @@ public class ProductRepository {
 
     private void findProductsOnApi(DataDownloadedCallback<List<Produto>> callback) {
         Call<List<Produto>> call = service.findAll();
-        call.enqueue(new BaseCallback<List<Produto>>(new BaseCallback.BaseResponseCallback<List<Produto>>() {
+        call.enqueue(new BaseCallback<>(new BaseCallback.BaseResponseCallback<List<Produto>>() {
             @Override
             public void onSuccess(List<Produto> productsDownloaded) {
-                upateInternal(productsDownloaded, callback);
+                updateInternal(productsDownloaded, callback);
             }
+
             @Override
             public void onFailure(String errorMessage) {
                 callback.onFailure(errorMessage);
@@ -52,8 +47,8 @@ public class ProductRepository {
         }));
     }
 
-    private void upateInternal(List<Produto> products,
-                               DataDownloadedCallback<List<Produto>> callback) {
+    private void updateInternal(List<Produto> products,
+                                DataDownloadedCallback<List<Produto>> callback) {
         new BaseAsyncTask<>(() -> {
                 dao.save(products);
                 return dao.findAll();
@@ -66,10 +61,29 @@ public class ProductRepository {
 
     private void saveInApi(Produto product, DataDownloadedCallback<Produto> callback) {
         Call<Produto> call = service.save(product);
-        call.enqueue(new BaseCallback<Produto>(new BaseCallback.BaseResponseCallback<Produto>() {
+        call.enqueue(new BaseCallback<>(new BaseCallback.BaseResponseCallback<Produto>() {
             @Override
             public void onSuccess(Produto productReceived) {
                 callback.onSuccess(productReceived);
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                callback.onFailure(errorMessage);
+            }
+        }));
+    }
+
+    public void edit(Produto product, DataDownloadedCallback<Produto> callback) {
+
+        Call<Produto> call = service.edit(product.getId(), product);
+        call.enqueue(new BaseCallback<>(new BaseCallback.BaseResponseCallback<Produto>() {
+            @Override
+            public void onSuccess(Produto result) {
+                new BaseAsyncTask<>(() -> {
+                    dao.update(product);
+                    return product;
+                }, callback::onSuccess).execute();
             }
 
             @Override

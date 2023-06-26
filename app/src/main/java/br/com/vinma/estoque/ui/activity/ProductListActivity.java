@@ -93,17 +93,18 @@ public class ProductListActivity extends AppCompatActivity {
 
     private void openEditProductForm(int position, Produto product) {
         new ProductEditDialog(this, product,
-                productEdited -> edit(position, productEdited))
-                .show();
-    }
+                productCreated -> repository.edit(productCreated,
+                    new ProductRepository.DataDownloadedCallback<Produto>() {
+                        @Override
+                        public void onSuccess(Produto productEdited) {
+                            adapter.edit(position, productEdited);
+                        }
 
-    private void edit(int position, Produto product) {
-        new BaseAsyncTask<>(() -> {
-            dao.update(product);
-            return product;
-        }, productEdited ->
-                adapter.edit(position, productEdited))
-                .execute();
+                        @Override
+                        public void onFailure(String error) {
+                            toast("Falha ao editar produto: " + error);
+                        }
+                })).show();
     }
 
     private void toast(String message) {
